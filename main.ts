@@ -1,4 +1,4 @@
-import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
+import { App, Editor, MarkdownPreviewRenderer, MarkdownPreviewView, MarkdownRenderer, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, Setting, TFile } from 'obsidian';
 
 // Remember to rename these classes and interfaces!
 
@@ -17,7 +17,7 @@ export default class MyPlugin extends Plugin {
 		await this.loadSettings();
 
 		// This creates an icon in the left ribbon.
-		const ribbonIconEl = this.addRibbonIcon('dice', 'Sample Plugin', (evt: MouseEvent) => {
+		const ribbonIconEl = this.addRibbonIcon('dice', 'Dependency Tree Plugin', (evt: MouseEvent) => {
 			// Called when the user clicks the icon.
 			new Notice('This is a notice!');
 		});
@@ -76,19 +76,42 @@ export default class MyPlugin extends Plugin {
 
 		// When registering intervals, this function will automatically clear the interval when the plugin is disabled.
 		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
-	}
 
-	onunload() {
+		this.registerMarkdownCodeBlockProcessor("crtlist", (source, el, ctx) => {
+			let diagram: string = ""
+			const rows = source.split("\n").filter((row) => row.length > 0);
+			const list = el.createDiv();
+			let listText:string =""
+			rows.forEach(
+				(row) => {
+					if (row.startsWith("diagram:")) {
+						diagram = row.split(":")[1];
+					} else {
+						listText+=`${row}\n`
+					}
+				}
+			)
+			console.log(listText)
+			const currentFile:TFile|null=this.app.workspace.getActiveFile();
+			if (currentFile!=null) {
+				MarkdownRenderer.renderMarkdown(listText, el, this.app.vault.getResourcePath(currentFile), this)
+			}
+			MarkdownPreviewView.renderMarkdown(`![[${diagram}]]`, el, diagram, this);
+		}
+	)
+}
 
-	}
+onunload() {
+
+}
 
 	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
-	}
+	this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+}
 
 	async saveSettings() {
-		await this.saveData(this.settings);
-	}
+	await this.saveData(this.settings);
+}
 }
 
 class SampleModal extends Modal {
@@ -97,12 +120,12 @@ class SampleModal extends Modal {
 	}
 
 	onOpen() {
-		const {contentEl} = this;
+		const { contentEl } = this;
 		contentEl.setText('Woah!');
 	}
 
 	onClose() {
-		const {contentEl} = this;
+		const { contentEl } = this;
 		contentEl.empty();
 	}
 }
@@ -116,11 +139,11 @@ class SampleSettingTab extends PluginSettingTab {
 	}
 
 	display(): void {
-		const {containerEl} = this;
+		const { containerEl } = this;
 
 		containerEl.empty();
 
-		containerEl.createEl('h2', {text: 'Settings for my awesome plugin.'});
+		containerEl.createEl('h2', { text: 'Settings for my awesome plugin.' });
 
 		new Setting(containerEl)
 			.setName('Setting #1')
