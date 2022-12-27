@@ -22,7 +22,8 @@
 					- [ ] Create objects basing on note's list
 						- [ ] Read list from note (MD) ^readmdlist
 - [ ] Represent list without any service data
-	- [ ] Hide 
+	- [ ] Hide service data for each line
+		- [ ] Define how to distinguish service data
 - [ ] Allows to specify that items should be considered as
 	- [ ] alternative
 		- [ ] Display branches of items by different font colors
@@ -39,7 +40,15 @@
 			
 ## Non functional requirements
 
-- Work with standard MD lists
+- [ ] Work with standard MD lists
+- [ ] Apply MIT license
+- [ ] Publish Plug-In
+	- [ ] Introduce tests
+		- [ ] Remove extra
+			- [ ] Code
+			- [ ] Settings
+			- [ ] Imports
+		- [ ] Create usage guideline
 
 [Drawio Obsidian Plug-In](https://github.com/zapthedingbat/drawio-obsidian)
 
@@ -104,6 +113,7 @@ Should be presented as:
 ## Used materials
 
 - [Editors in Obsidian](https://marcus.se.net/obsidian-plugin-docs/editor)
+- [Obsidian plugin API does not support rendering of embeds?](https://forum.obsidian.md/t/obsidian-plugin-api-does-not-support-rendering-of-embeds/24617/2)
 
 ---
 [^1]: would be good to colorize related blocks on diagram as well
