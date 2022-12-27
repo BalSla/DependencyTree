@@ -20,7 +20,7 @@
 			- [ ] Calculate canvas size
 				- [ ] Arrange blocks on canvas
 					- [ ] Create objects basing on note's list
-						- [ ] Read list from note (MD) ^readmdlist
+						- [x] Read list from note (MD) ^readmdlist
 - [ ] Represent list without any service data
 	- [ ] Hide service data for each line
 		- [ ] Define how to distinguish service data

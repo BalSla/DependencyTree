@@ -43,7 +43,7 @@ export default class DependencyTreePlugin extends Plugin {
 		// When registering intervals, this function will automatically clear the interval when the plugin is disabled.
 		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
 
-		this.registerMarkdownCodeBlockProcessor("crtlist", (source, el, ctx) => {
+		this.registerMarkdownCodeBlockProcessor("dependencylist", (source, el, ctx) => {
 			let diagram: string = ""
 			const rows = source.split("\n").filter((row) => row.length > 0);
 			let listText:string =""
