@@ -17,10 +17,11 @@
 					- [ ] Hexagon
 					- [ ] Rounded rectangle
 				- [ ] Directed arrow
-			- [ ] Calculate canvas size
-				- [ ] Arrange blocks on canvas
+				- [ ] Calculate canvas size
+				- [ ] [[Arrange blocks on canvas]]
 					- [ ] Create objects basing on note's list
-						- [x] Read list from note (MD) ^readmdlist
+						- [ ] Rearrange list with additional nodes (joints and enhancers)
+							- [x] Read list from note (MD) ^readmdlist
 - [ ] Represent list without any service data
 	- [ ] Hide service data for each line
 		- [ ] Define how to distinguish service data
@@ -44,6 +45,7 @@
 - [ ] Apply MIT license
 - [ ] Publish Plug-In
 	- [ ] Introduce tests
+	- [ ] Test on mobile
 		- [ ] Remove extra
 			- [ ] Code
 			- [ ] Settings
@@ -66,8 +68,10 @@ type:future
 		- item6
 		- PLUS
 		- item7
-			- SIDEEFFECT
-				- sideeffect
+			- sideeffect^m1
+	- OR
+	- item8
+	- ^m1
 ```
 
 Should be presented graphically as:

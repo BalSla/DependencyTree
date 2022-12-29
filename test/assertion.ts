@@ -1,34 +1,43 @@
-export class Assertion {
-    assertEqual(actual:string, expected:string, message?:string): boolean{
-        return actual===expected;
-    }
-}
+import isEqual from 'lodash.isequal'
 
-export function assertEqual (actual:string, expected:string, errorMessage?:string): TestResult {
-    if (actual!=expected) {
+export function assertEqual<T>(actual: T, expected: T, errorMessage: string="Values are not equal!"): TestResult<T> {
+    if (actual != expected) {
         return new TestResult(false, actual, expected, errorMessage)
     }
-    else
-    {
+    else {
         return new TestResult(true, actual, expected)
     }
 }
 
-export class Test {
-    constructor(readonly name: string, readonly result: TestResult){
+export function assertNotEqual<T>(actual: T, expected: T, errorMessage: string="Values are equal!"): TestResult<T> {
+    if (actual === expected) {
+        return new TestResult(false, actual, expected, errorMessage)
+    }
+    else {
+        return new TestResult(true, actual, expected)
     }
 }
 
-export class TestResult {
-    constructor (readonly success: boolean, readonly actual:string, readonly expected:string, readonly errorMessage?: string){}
+export class TestResult<T> {
+    constructor(readonly success: boolean, readonly actual: T,
+        readonly expected: T, readonly errorMessage?: string) { }
+}
+
+interface ITest{
+    name:string
+    execute:() => TestResult<any>
+}
+
+export class Test<T> implements ITest {
+    constructor (readonly name:string, readonly execute:()=> TestResult<T>){}
 }
 
 export class TestSuite {
-    readonly suite:Array<Test> = new Array<Test>()
-    execute(){
-        this.suite.forEach(element => {
-            if (!element.result.success) {
-                console.log(`${element.name} - ERROR: ${element.result.errorMessage} (Actual:${element.result.actual}, Expected:${element.result.expected})`)
+    execute(...tests: ITest[]){
+        tests.forEach(element => {
+            let result=element.execute()
+            if (!result.success) {
+                console.log(`${element.name} - ERROR: ${result.errorMessage} (Actual:${result.actual}, Expected:${result.expected})`)
             }
             else
             {
@@ -38,3 +47,11 @@ export class TestSuite {
     }
 }
 
+export function assertObjectsValueEqual<T>(arg1:T, arg2:T, errorMessage?:string):TestResult<T>{
+    if (!isEqual(arg1, arg2)){
+        return new TestResult(false, arg1, arg2, errorMessage)
+    }
+    else {
+        return new TestResult(true,  arg1, arg2)
+    }
+}
